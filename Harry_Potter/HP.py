@@ -1,4 +1,7 @@
 import pandas
+from Character import Character
+from Movie import Movie
+from Place import Place
 
 #from place_class import category
 
@@ -40,94 +43,12 @@ final_characters = {}
 final_movies = {}
 places1 = {}
 
-class Character:
-    def __init__(self, id, name, gender, house):
-        self.id = id
-        self.name = name
-        self.gender = gender
-        self.house = house
-        self.movies = set()
-        self.places = set()
-        self.dialogue = set()
-    def __repr__(self):
-        return repr((self.id, self.name, self.gender, self.house))
-    def __eq__(self,other):
-        return self.id == other.id
-    def __hash__(self):
-        return self.id
 
-    def acted_with(self, character_obj):
-        char3 = set()
-        for x in self.movies:
-            if x in character_obj.movies:
-                char3.add(x)
-        return char3
-
-
-    def has_acted_in(self, movie_name):
-        #print(self.movies)
-        #print(movie_name)
-        found_movie = False
-        for i in self.movies:
-            if i.name == movie_name:
-                found_movie = True
-        if found_movie == True:
-            print ("Yes")
-        else:
-            print("No")
-
-    def acted_in(self, movies):
-        commmon_movies = set()
-        for movie in self.movies:
-            if movie in movies:
-                commmon_movies.add(movie)
-        return common_movies
 '''
     def is_in_same_house(self, character_obj):
 
     def no_of_movies_played_in(self):
 '''
-        
-
-class Movie:
-    def __init__(self, id, name, release_year):
-        self.id = id
-        self.name = name
-        self.release_year = release_year
-        self.characters = set()
-        self.places = set()
-    def __repr__(self):
-        return repr((self.id, self.name, self.release_year))
-    def __eq__(self, other):
-        return self.id == other.id
-    def __hash__(self):
-        return self.id
-    def common_characters(self, movies_obj):
-        characters = set()
-        for character in self.characters:
-            if character in movies_obj.characters:
-                characters.add(character)
-        return characters
-    def common_places(self, movie_obj):
-        places = set()
-        for place in self.places:
-            if place in movie_obj.places:
-                places.add(place)
-        return places
-
-class Place:
-    def __init__(self, id, name, category):
-        self.id = id
-        self.name = name
-        self.category = category
-        self.characters = set()
-        def __repr__(self):
-            return repr((self.id, self.name, self.category))
-        def __eq__(self,other):
-            return self.id == other.id
-        def __hash__(self):
-            return self.id
-
 for character in characters:
     name = str(character['Character Name'])
     id = int(character['Character ID'])
@@ -178,22 +99,36 @@ for dialogue in dialogues:
     movie_obj.places.add(place_obj)
     character_obj.places.add(place_obj)
     place_obj.characters.add(character_obj)
-
-
-
-
+'''
+which character had the least dialogues?
+least = 123456789
+name = ''
+for character in final_characters.values():
+    count = len(character.dialogue)
+    if count < least:
+        least = count
+        name = character.name
+print(name)
+'''
+'''
+which character has the most dialogues?
+most = 0
+name = ''
+for character in final_characters.values():
+    count = len(character.dialogue)
+    if count > most:
+        most = count
+        name = character.name
+print(name)
+'''
+'''
+which characters appear in only one movie? 
 place12 = set()
 for character in final_characters.values():
     count = len(character.movies)
     if count == 1:
         place12.add(character.name)
 print(place12)
-
-
-'''
-which characters appear in only one movie? 
-which character has the most dialogues?
-which character had the least dialogues? 
 '''
 '''
 which character has been to the most places?
