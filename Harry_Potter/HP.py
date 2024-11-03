@@ -1,6 +1,6 @@
 import pandas
 
-from place_class import category
+#from place_class import category
 
 chapters_file = pandas.read_csv('/Users/ananya/Python/Harry_Potter_Movies/Chapters.csv', encoding='latin1', usecols=['Chapter ID', 'Chapter Name', 'Movie ID', 'Movie Chapter'])
 chapters = chapters_file.to_dict(orient='records')
@@ -48,6 +48,7 @@ class Character:
         self.house = house
         self.movies = set()
         self.places = set()
+        self.dialogue = set()
     def __repr__(self):
         return repr((self.id, self.name, self.gender, self.house))
     def __eq__(self,other):
@@ -162,10 +163,12 @@ for dialogue in dialogues:
     characterid = int(dialogue['Character ID'])
     chapterid = int(dialogue['Chapter ID'])
     placeid = int(dialogue['Place ID'])
+    dialogueid = int(dialogue['Dialogue ID'])
     movieid = chapters1.get(chapterid)
     character_obj = characters1.get(characterid)
     movie_obj = movies1.get(movieid)
     character_obj.movies.add(movie_obj)
+    character_obj.dialogue.add(dialogueid)
     place_obj = places1.get(placeid)
     if character_obj.name not in final_characters.keys():
         final_characters[character_obj.name] = character_obj
@@ -176,20 +179,33 @@ for dialogue in dialogues:
     character_obj.places.add(place_obj)
     place_obj.characters.add(character_obj)
 
+
+
+
+place12 = set()
+for character in final_characters.values():
+    count = len(character.movies)
+    if count == 1:
+        place12.add(character.name)
+print(place12)
+
+
+'''
+which characters appear in only one movie? 
+which character has the most dialogues?
+which character had the least dialogues? 
+'''
+'''
+which character has been to the most places?
 most_char = {}
 character_answer = None
 largest_places_count = 0
 for character in final_characters.values():
     places_count = len(character.places)
     most_char[character.name] = places_count
-
+    
 print(most_char)
-
-
-
-
-
-
+'''
 '''
 what place shows up the most in all movies?
 count1 = 0
@@ -230,14 +246,6 @@ print(movie1_obj.common_characters(movie2_obj))
 print("Common Places")
 print(movie1_obj.common_places(movie2_obj))
 '''
-'''
-which character has been to the most places?
-which characters appear in only one movie?
-which character has the most dialogues?
-which character had the least dialogues? 
-'''
-
-
 '''
 char2 = input("Put in a second character name ")
 
