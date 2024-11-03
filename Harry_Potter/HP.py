@@ -2,19 +2,19 @@ import pandas
 
 #from place_class import category
 
-chapters_file = pandas.read_csv('/Users/ananya/Python/Harry_Potter_Movies/Chapters.csv', encoding='latin1', usecols=['Chapter ID', 'Chapter Name', 'Movie ID', 'Movie Chapter'])
+chapters_file = pandas.read_csv('data/Chapters.csv', encoding='latin1', usecols=['Chapter ID', 'Chapter Name', 'Movie ID', 'Movie Chapter'])
 chapters = chapters_file.to_dict(orient='records')
 
-characters_file = pandas.read_csv('/Users/ananya/Python/Harry_Potter_Movies/Characters.csv', encoding='latin1',  usecols=['Character ID', 'Character Name', 'Species', 'Gender', 'House','Patronus', 'Wand (Wood)', 'Wand (Core)'])
+characters_file = pandas.read_csv('data/Characters.csv', encoding='latin1',  usecols=['Character ID', 'Character Name', 'Species', 'Gender', 'House','Patronus', 'Wand (Wood)', 'Wand (Core)'])
 characters = characters_file.to_dict(orient='records')
 
-dialogues_file = pandas.read_csv('/Users/ananya/Python/Harry_Potter_Movies/Dialogue.csv', encoding='latin1', usecols=['Dialogue ID','Chapter ID','Place ID','Character ID','Dialogue'])
+dialogues_file = pandas.read_csv('data/Dialogue.csv', encoding='latin1', usecols=['Dialogue ID','Chapter ID','Place ID','Character ID','Dialogue'])
 dialogues = dialogues_file.to_dict(orient='records')
 
-movies_file = pandas.read_csv('/Users/ananya/Python/Harry_Potter_Movies/Movies1.csv', encoding='latin1', usecols=['Movie ID','Movie Title','Release Year','Runtime','Budget','Box Office'])
+movies_file = pandas.read_csv('data/Movies1.csv', encoding='latin1', usecols=['Movie ID','Movie Title','Release Year','Runtime','Budget','Box Office'])
 movies = movies_file.to_dict(orient='records')
 
-places_file = pandas.read_csv('/Users/ananya/Python/Harry_Potter_Movies/Places.csv', encoding='latin1', usecols=['Place ID','Place Name','Place Category'])
+places_file = pandas.read_csv('data/Places.csv', encoding='latin1', usecols=['Place ID','Place Name','Place Category'])
 places = places_file.to_dict(orient='records')
 
 chapter_id = set()
