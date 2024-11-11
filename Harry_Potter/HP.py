@@ -2,7 +2,8 @@ import pandas
 from Character import Character
 from Movie import Movie
 from Place import Place
-
+import spacy
+nlp = spacy.load("en_core_web_sm")
 #from place_class import category
 
 chapters_file = pandas.read_csv('data/Chapters.csv', encoding='latin1', usecols=['Chapter ID', 'Chapter Name', 'Movie ID', 'Movie Chapter'])
@@ -42,6 +43,7 @@ movies1 = {}
 final_characters = {}
 final_movies = {}
 places1 = {}
+dialogues_dict = {}
 
 
 '''
@@ -99,6 +101,35 @@ for dialogue in dialogues:
     movie_obj.places.add(place_obj)
     character_obj.places.add(place_obj)
     place_obj.characters.add(character_obj)
+
+for dialogue in dialogues:
+    txt = str(dialogue['Dialogue'])
+    id = int(dialogue['Character ID'])
+    if id in dialogues_dict.keys():
+        d = dialogues_dict.get(id)
+        d.add(txt)
+    if id not in dialogues_dict.keys():
+        d = set()
+        d.add(txt)
+        dialogues_dict[id] = d
+people_set = set()
+dialogs_of_hp = dialogues_dict.get(1)
+all_character_names = final_characters.keys()
+harry_potter_character = final_characters.get('Harry Potter')
+for dialog in dialogs_of_hp:
+    doc = nlp(dialog)
+    for ent in doc.ents:
+        if ent.label_ == 'PERSON':
+            name = ent.text
+            for character_name in all_character_names:
+                if name in character_name:
+                    character_obj = final_characters.get(character_name)
+                    harry_potter_character.characters_mentioned.add(character_obj)
+
+print(people_set)
+
+
+
 '''
 which character had the least dialogues?
 least = 123456789
