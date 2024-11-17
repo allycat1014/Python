@@ -87,11 +87,12 @@ for dialogue in dialogues:
     chapterid = int(dialogue['Chapter ID'])
     placeid = int(dialogue['Place ID'])
     dialogueid = int(dialogue['Dialogue ID'])
+    dialogue = str(dialogue['Dialogue'])
     movieid = chapters1.get(chapterid)
     character_obj = characters1.get(characterid)
     movie_obj = movies1.get(movieid)
     character_obj.movies.add(movie_obj)
-    character_obj.dialogue.add(dialogueid)
+    character_obj.dialogue.add(dialogue)
     place_obj = places1.get(placeid)
     if character_obj.name not in final_characters.keys():
         final_characters[character_obj.name] = character_obj
@@ -102,6 +103,20 @@ for dialogue in dialogues:
     character_obj.places.add(place_obj)
     place_obj.characters.add(character_obj)
 
+
+
+for character in final_characters.values():
+    for dialogue in character.dialogue:
+        doc = nlp(dialogue)
+        for ent in doc.ents:
+            if ent.label_ == 'PERSON':
+                name = ent.text
+                for characters in final_characters.keys():
+                    if name in characters:
+                        character.characters_mentioned.add(characters)
+name1 = final_characters.get("George Weasley")
+print(name1.characters_mentioned)
+'''
 for dialogue in dialogues:
     txt = str(dialogue['Dialogue'])
     id = int(dialogue['Character ID'])
@@ -113,23 +128,22 @@ for dialogue in dialogues:
         d.add(txt)
         dialogues_dict[id] = d
 people_set = set()
-dialogs_of_hp = dialogues_dict.get(1)
-all_character_names = final_characters.keys()
-harry_potter_character = final_characters.get('Harry Potter')
-for dialog in dialogs_of_hp:
-    doc = nlp(dialog)
-    for ent in doc.ents:
-        if ent.label_ == 'PERSON':
-            name = ent.text
-            for character_name in all_character_names:
-                if name in character_name:
-                    character_obj = final_characters.get(character_name)
-                    harry_potter_character.characters_mentioned.add(character_obj)
-
+dialogs_of_hp = dialogues_dict.values()
+for dialogue in dialogs_of_hp:
+    all_character_names = final_characters.keys()
+    characters = final_characters.values()
+    for dialog in dialogue:
+        doc = nlp(dialog)
+        for ent in doc.ents:
+            if ent.label_ == 'PERSON':
+                name = ent.text
+                for character_name in all_character_names:
+                    if name in character_name:
+                        character_obj = final_characters.get(character_name)
+                        characters.characters_mentioned.add(character_obj)
+print(characters.characters_mentioned)
 print(people_set)
-
-
-
+'''
 '''
 which character had the least dialogues?
 least = 123456789
