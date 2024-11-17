@@ -7,6 +7,7 @@ class Character:
         self.movies = set()
         self.places = set()
         self.dialogue = set()
+        self.characters_mentioned = set()
     def __repr__(self):
         return repr((self.id, self.name, self.gender, self.house))
     def __eq__(self,other):
