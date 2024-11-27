@@ -8,7 +8,7 @@ taylor_file = pandas.read_csv('tay_data/taylor_swift_spotify.csv', encoding='lat
 taylors = taylor_file.to_dict(orient='records')
 
 '''
-Identify the most popular song in each album.
+
 Find the longest song across all albums
 Find the album with highest average danceability across all her albums
 find trend between popularity and danceabliltiy
@@ -37,7 +37,8 @@ def calculate_similarity(song1, song2):
 
 for song in taylors:
     name = str(song['name'])
-    album = str(song['album'])
+    id = str(song['id'])
+    album_name = str(song['album'])
     popularity = int(song['popularity'])
     track = int(song['track_number'])
     release_date = str(song['release_date'])
@@ -48,9 +49,35 @@ for song in taylors:
     valence = float(song['valence'])
     tempo = float(song['tempo'])
     liveness = float(song['liveness'])
+    song_obj = None
     if name not in songs.keys():
-        song_obj = Song(name, album, popularity, track, release_date, danceability, duration, acousticness, energy, valence, tempo,liveness)
+        song_obj = Song(name, album_name, track, release_date, popularity, danceability, duration, acousticness, energy, valence, tempo,liveness)
         songs[name] = song_obj
+    else:
+        song_obj = songs[name]
+    album_obj = None
+
+
+'''
+Identify the most popular song in each album.   
+    if album_name not in albums.keys():
+        album_obj = Album(album_name)
+        albums[album_name] = album_obj
+    else:
+        album_obj = albums.get(album_name)
+    album_obj.tracks.add(song_obj)
+    if album_obj.most_popular_track is None:
+        album_obj.most_popular_track = song_obj
+    elif song_obj.popularity > album_obj.most_popular_track.popularity:
+        album_obj.most_popular_track = song_obj
+
+
+for album in albums.values():
+    print(album.name, "  :: ",  album.most_popular_track.name)
+'''
+
+'''
+given a favorite song give a list of recommendations 
 input = songs.get('Paper Rings')
 for song in songs.values():
     score = calculate_similarity(input, song)
@@ -63,23 +90,6 @@ def getScore(similarity):
 
 list1.sort(key=getScore)
 print(list1)
-
-
-
-
-
-
-
-
-'''
-for album in taylors:
-    album = str(album['album'])
-    name = str(album['name'])
-    track = int(album['track_number'])
-    release_date = int(album['release_date'])
-    if album not in albums.keys():
-        album_obj = Album(name, track, release_date)
-        album[album] = album_obj
 '''
 '''
 def calculate_similarity(song1, song2):
