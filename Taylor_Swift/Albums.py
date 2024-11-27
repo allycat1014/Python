@@ -1,9 +1,9 @@
 class Album:
-    def __init__(self, name, track_number, release_date,):
+    def __init__(self, name):
         self.name = name
-        self.track_number = track_number
-        self.release_date = release_date
+        self.tracks = set()
+        self.most_popular_track = None
     def __repr__(self):
-        return repr((self.name, self.track_number, self.release_date))
+        return repr((self.name))
 
 
