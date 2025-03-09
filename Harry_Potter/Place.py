@@ -4,8 +4,8 @@ class Place:
         self.name = name
         self.category = category
         self.characters = set()
-        def __repr__(self):
-            return repr((self.id, self.name, self.category))
+    def __repr__(self):
+        return repr((self.id, self.name, self.category))
         def __eq__(self,other):
             return self.id == other.id
         def __hash__(self):

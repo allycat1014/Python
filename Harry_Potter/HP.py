@@ -32,7 +32,6 @@ richest = 0
 dict1 = {}
 dict2 = {}
 count = 0
-largest = 0
 most = ''
 list1 = []
 list2 = []
@@ -102,9 +101,66 @@ for dialogue in dialogues:
     movie_obj.places.add(place_obj)
     character_obj.places.add(place_obj)
     place_obj.characters.add(character_obj)
+houses = {}
+hp_places = {}
+most_visited = ''
+largest = 0
+largest_pid = 0
+'''
+What house has HP gone to the most?
+Have to finish and add from diction
 
+            for place in places1:
+                if place.category == 'Dwellings':
+                houses[place.id] = place.house
 
+for place in places:
+    id = int(place['Place ID'])
+    category = str(place['Place Category'])
+    name = str(place['Place Name'])
+    if category == 'Dwellings':
+        houses[id] = name
+for dialogue in dialogues:
+    cid = int(dialogue['Character ID'])
+    pid = int(dialogue['Place ID'])
+    count = 1
+    if cid == 1:
+        if pid in hp_places.keys() and houses.keys():
+            count = hp_places.get(pid)
+            count += 1
+            hp_places[pid] = count
+        if pid in houses.keys():
+            if pid not in hp_places.keys():
+                hp_places[pid] = count
+        if count > largest:
+            largest = count
+            largest_pid = pid
+            most_visited = houses.get(largest_pid)
+print(most_visited)
+'''
+'''
+            what place shows up the most in all movies?
+            count1 = 0
+            largest1 = 0
+            final_place = None
+            most_place = {}
+            for movie in final_movies:
+                movie_obj1 = final_movies.get(movie)
+                for place in movie_obj1.places:
+                    count = 1
+                    if place in most_place.keys():
+                        count = most_place.get(place)
+                        count += 1
+                        most_place[place] = count
+                    if place not in most_place.keys():
+                        most_place[place] = count
+                    if count > largest1:
+                        largest1 = count
+                        final_place = place
 
+            print(final_place.name)
+'''
+'''
 for character in final_characters.values():
     for dialogue in character.dialogue:
         doc = nlp(dialogue)
@@ -116,6 +172,7 @@ for character in final_characters.values():
                         character.characters_mentioned.add(characters)
 name1 = final_characters.get("George Weasley")
 print(name1.characters_mentioned)
+'''
 '''
 for dialogue in dialogues:
     txt = str(dialogue['Dialogue'])
@@ -243,30 +300,22 @@ char2_obj = final.get(char2)
 
 char1_obj.acted_with(char2_obj)
 '''
-
 '''
 if char1 in final.keys():
     character_obj = final.get(char1)
-    print(character_obj)
-if char1 not in final.keys():
-    print("Error! Put enter an actual character")
+    print(cha;'/racter_obj)
+if char1 not/ in final.keys():
+    print("Error! Enter an actual character")
 '''
 '''
     if character_obj.name in final.keys():
-        t = final.get(character_obj.name)
+        t =` final.get(character_obj.name)
         t.add(character_obj)
     if character_obj.name not in final.keys():
         t = set()
         t.add(character_obj)
         final[character_obj.name] = t
 '''
-
-
-
-
-
-
-
 '''
 for character in characters:
     name = str(character['Character Name'])
