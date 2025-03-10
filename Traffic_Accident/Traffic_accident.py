@@ -1,5 +1,6 @@
 import pandas
 from Crash_type_to_damage import Crash_type_to_damage
+import operator
 
 accident_file = pandas.read_csv('traffic_data/traffic_accidents.csv', encoding='latin1', usecols=['crash_date', 'traffic_control_device', 'weather_condition', 'lighting_condition', 'first_crash_type', 'trafficway_type', 'alignment','roadway_surface_cond', 'road_defect','crash_type', 'intersection_related_i','damage','prim_contributory_cause','num_units','most_severe_injury','injuries_total','injuries_fatal','injuries_incapacitating','injuries_non_incapacitating','injuries_reported_not_evident','injuries_no_indication','crash_hour','crash_day_of_week','crash_month'])
 accidents = accident_file.to_dict(orient='records')
@@ -29,10 +30,10 @@ for accident in accidents:
     crash_month = int(accident['crash_month'])
 
     if crash_type not in crash_type_to_crash_type_with_total_damage.keys():
-        crash_type_obj = Crash_type_to_damage(crash_type)
-        crash_type_to_crash_type_with_total_damage[crash_type] = crash_type_obj
+        crash_type_obj = Crash_type_to_damage(first_crash_type)
+        crash_type_to_crash_type_with_total_damage[first_crash_type] = crash_type_obj
     else:
-        crash_type_obj = crash_type_to_crash_type_with_total_damage.get(crash_type)
+        crash_type_obj = crash_type_to_crash_type_with_total_damage.get(first_crash_type)
 
 
 
@@ -46,28 +47,17 @@ write function to parse damage name it parseDamage
 first write parseDamage function then underneath write for loop and everytime
     the for loop goes over damage call the function and the function will return a number ex: 500 instead of $500
 once damage number is parsed add the number to the total_damage variable which is in the Class
+for accident in accidents:
+    first_crash_type = str(accident['first_crash_type'])
+    damage = str(accident['damage'])
+    crash_type_obj = crash_type_to_crash_type_with_total_damage.get(first_crash_type)
+    crash_type_obj.add_to_total_damage(damage)
+
+sorted_list = sorted(crash_type_to_crash_type_with_total_damage.values(), key=operator.attrgetter('total_damage'), reverse=True)
+
+print(sorted_list[0])
 '''
 
-def parseDamage(damage):
-    if 'OVER' in damage:
-        damage = damage.split("$")
-        damage = damage[1].split(",")
-        damage = int(damage[0]+damage[1])
-    elif "OR LESS" in damage:
-        damage = damage.split("O")
-        damage = damage[0].split("$")
-        damage = int(damage[1])
-    elif "-" in damage:
-        damage = damage.split("-")
-        less = damage[0].split("$")
-        more = damage[1].split("$")
-        more1 = more[1].split(",")
-        more1 = more1[0]+more1[1]
-        average = (int(less[1]) + int(more1))
-        average = average/2
-        damage = average
-    return damage
-print(parseDamage("$501 - $1,500"))
 
 
 
@@ -76,6 +66,10 @@ print(parseDamage("$501 - $1,500"))
 
 
 
+
+'''
+What is the most frequent type of damage?
+'''
 
 
 
