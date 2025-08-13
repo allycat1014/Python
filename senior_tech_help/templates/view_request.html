@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+	<article class="request">
+		<h1>{{ help_request.topic|title }}</h1>
+		<p class="meta">Requested by {{ help_request.name }} • {{ help_request.created_at.strftime('%b %d, %Y') }} • Status: {{ help_request.status }}</p>
+		<p class="description">{{ help_request.description }}</p>
+		<section class="contact">
+			<h3>Contact</h3>
+			<ul>
+				<li>Email: <a href="mailto:{{ help_request.email }}">{{ help_request.email }}</a></li>
+				{% if help_request.phone %}<li>Phone: {{ help_request.phone }}</li>{% endif %}
+			</ul>
+		</section>
+		{% if help_request.status == 'open' %}
+			<form method="post" class="form">
+				<h2>Offer your help</h2>
+				{{ form.hidden_tag() }}
+				<div class="form-row">{{ form.volunteer_name.label }}{{ form.volunteer_name(size=40) }}{% for e in form.volunteer_name.errors %}<span class="error">{{ e }}</span>{% endfor %}</div>
+				<div class="form-row">{{ form.volunteer_email.label }}{{ form.volunteer_email(size=40) }}{% for e in form.volunteer_email.errors %}<span class="error">{{ e }}</span>{% endfor %}</div>
+				<div class="form-row">{{ form.message.label }}{{ form.message(rows=4) }}{% for e in form.message.errors %}<span class="error">{{ e }}</span>{% endfor %}</div>
+				<div class="actions">{{ form.submit(class_="button") }}</div>
+			</form>
+			<form method="post" action="{{ url_for('close_request', request_id=help_request.id) }}" class="inline">
+				<button class="button secondary" type="submit">Mark as resolved</button>
+			</form>
+		{% endif %}
+		<section class="offers">
+			<h2>Volunteer offers</h2>
+			{% if help_request.offers %}
+				<ul class="offers-list">
+					{% for o in help_request.offers|sort(attribute='created_at', reverse=true) %}
+						<li>
+							<strong>{{ o.volunteer_name }}</strong> — <a href="mailto:{{ o.volunteer_email }}">{{ o.volunteer_email }}</a>
+							{% if o.message %}<p>{{ o.message }}</p>{% endif %}
+							<small>{{ o.created_at.strftime('%b %d, %Y %H:%M') }}</small>
+						</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<p>No offers yet. Be the first to help!</p>
+			{% endif %}
+		</section>
+	</article>
+{% endblock %}
