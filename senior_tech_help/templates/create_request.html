@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+	<h1>Ask for tech help</h1>
+	<form method="post" class="form">
+		{{ form.hidden_tag() }}
+		<div class="form-row">{{ form.name.label }}{{ form.name(size=40) }}{% for e in form.name.errors %}<span class="error">{{ e }}</span>{% endfor %}</div>
+		<div class="form-row">{{ form.email.label }}{{ form.email(size=40) }}{% for e in form.email.errors %}<span class="error">{{ e }}</span>{% endfor %}</div>
+		<div class="form-row">{{ form.phone.label }}{{ form.phone(size=30) }}{% for e in form.phone.errors %}<span class="error">{{ e }}</span>{% endfor %}</div>
+		<div class="form-row">{{ form.topic.label }}{{ form.topic() }}{% for e in form.topic.errors %}<span class="error">{{ e }}</span>{% endfor %}</div>
+		<div class="form-row">{{ form.description.label }}{{ form.description(rows=6) }}{% for e in form.description.errors %}<span class="error">{{ e }}</span>{% endfor %}</div>
+		<div class="actions">{{ form.submit(class_="button primary") }}</div>
+	</form>
+{% endblock %}
